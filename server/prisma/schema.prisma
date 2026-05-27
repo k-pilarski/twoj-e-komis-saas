@@ -1,0 +1,86 @@
+// 1. Konfiguracja połączenia
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// 2. Model Użytkownika (Właściciel Komisu)
+
+model User {
+  id               String   @id @default(uuid())
+  email            String   @unique
+  password         String   // Zaszyfrowane hasło
+  firstName        String?
+  lastName         String?
+  
+  isSubscribed     Boolean  @default(false)
+  subscriptionId   String?  // Identyfikator płatności
+  
+  tenant           Tenant?
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// 3. Tabela Komisu
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique // np. "auto-handel-mirek"
+
+  ownerId     String   @unique
+  owner       User     @relation(fields: [ownerId], references: [id])
+
+  vehicles  Vehicle[]
+  settings  Settings?
+
+  createdAt   DateTime @default(now())
+}
+
+// 3. Tabela Samochodów (Inwentarz)
+
+model Vehicle {
+  id          String   @id @default(uuid())
+  brand       String
+  model       String
+  price       Float
+  year        Int
+  description String?
+
+  images      String[] // Tablica adresów URL do zdjęć
+
+  // KLUCZ MULTI-TENANT: Powiązanie auta z konkretnym komisem
+  tenantId    String
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+
+  createdAt   DateTime @default(now())
+
+  
+}
+
+// 5. Model Ustawień Kreatora
+
+model Settings {
+  id               String   @id @default(uuid())
+  
+  // Wygląd (np. 1 z 5 kolorów, 1 z 3 układów)
+  primaryColor     String   @default("#2563eb")
+  layoutType       String   @default("GRID") // np. GRID, LIST, MINIMAL
+  fontStyle        String   @default("SANS")
+  
+  // Wybrane podstrony (Checkboxy z kreatora)
+  hasContactPage     Boolean  @default(true)
+  hasRegulationsPage Boolean  @default(false)
+  
+  // Dane kontaktowe na stronę wygenerowaną
+  phoneNumber      String?
+  address          String?
+
+  tenantId         String   @unique
+  tenant           Tenant   @relation(fields: [tenantId], references: [id])
+}
