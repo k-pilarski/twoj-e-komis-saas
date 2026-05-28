@@ -3,6 +3,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import authRoutes from './routes/auth.routes.js';
 
 dotenv.config(); // Ładowanie zmiennych środowiskowych z pliku .env
 
@@ -12,6 +13,9 @@ const PORT = process.env.PORT || 5000; // Wybór portu
 // Middleware
 app.use(cors()); // Pozwala na zapytania z innego portu (z Reacta)
 app.use(express.json()); // Pozwala Expressowi czytać dane w formacie JSON
+
+// Trasy
+app.use('/api/auth', authRoutes);
 
 // Prosty endpoint testowy
 app.get('/api/test', (req, res) => {
