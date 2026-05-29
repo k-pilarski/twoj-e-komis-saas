@@ -4,12 +4,10 @@ export const register = async (req, res) => {
   try {
     const { email, password, firstName, lastName, tenantName, tenantSlug } = req.body;
 
-    // NOWOŚĆ: Walidacja pustych pól
     if (!email || !password || !firstName || !lastName || !tenantName || !tenantSlug) {
       return res.status(400).json({ error: 'Proszę wypełnić wszystkie pola formularza.' });
     }
 
-    // Przekazujemy robotę do serwisu ("kucharza")
     const { user, token } = await registerUserService(req.body);
 
     res.status(201).json({
@@ -39,12 +37,10 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // NOWOŚĆ: Walidacja pustych pól
     if (!email || !password) {
       return res.status(400).json({ error: 'Proszę wypełnić wszystkie pola logowania.' });
     }
 
-    // Przekazujemy robotę do serwisu
     const { user, token } = await loginUserService(email, password);
 
     res.status(200).json({
