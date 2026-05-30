@@ -8,7 +8,13 @@ export const register = async (req, res) => {
       return res.status(400).json({ error: 'Proszę wypełnić wszystkie pola formularza.' });
     }
 
-    const { user, token } = await registerUserService(req.body);
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 30);
+
+    const { user, token } = await registerUserService({
+      ...req.body,
+      expiresAt
+    });
 
     res.status(201).json({
       message: 'Konto zostało pomyślnie utworzone!',

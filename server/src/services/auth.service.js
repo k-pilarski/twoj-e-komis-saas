@@ -8,7 +8,7 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
 export const registerUserService = async (data) => {
-  const { email, password, firstName, lastName, tenantName, tenantSlug } = data;
+  const { email, password, firstName, lastName, tenantName, tenantSlug, expiresAt } = data;
 
   const existingUser = await prisma.user.findUnique({ where: { email } });
   if (existingUser) throw new Error('EMAIL_EXISTS');
@@ -28,6 +28,7 @@ export const registerUserService = async (data) => {
         create: {
           name: tenantName,
           slug: tenantSlug,
+          expiresAt,
           settings: { create: {} }
         }
       }

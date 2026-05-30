@@ -33,6 +33,9 @@ model Tenant {
   name      String
   slug      String   @unique // np. "auto-handel-mirek"
 
+  status    AccountStatus @default(PENDING)
+  expiresAt DateTime?
+
   ownerId     String   @unique
   owner       User     @relation(fields: [ownerId], references: [id])
 
@@ -83,4 +86,12 @@ model Settings {
 
   tenantId         String   @unique
   tenant           Tenant   @relation(fields: [tenantId], references: [id])
+}
+
+// 6. Typy wyliczeniowe (Enum)
+
+enum AccountStatus {
+  PENDING   // Świeżo zarejestrowany, czeka na opłacenie faktury
+  ACTIVE    // Opłacony, ma dostęp do kreatora i panelu
+  EXPIRED   // Czas minął lub brak płatności
 }
