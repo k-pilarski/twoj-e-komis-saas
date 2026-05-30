@@ -1,20 +1,11 @@
-import { useUserData } from '../hooks/useUserData';
+import { useOutletContext } from 'react-router-dom';
 
 export default function Dashboard() {
-  const { userData, isLoading } = useUserData();
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center gap-2 text-on-surface-variant">
-        <span className="material-symbols-outlined animate-spin">autorenew</span>
-        <span>Ładowanie tajnych danych...</span>
-      </div>
-    );
-  }
+  const { userData } = useOutletContext();
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-surface-container-high">
+      <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-surface-container-high mb-8">
         <h2 className="text-xl font-bold text-secondary mb-4">{userData?.message}</h2>
         <p className="mb-2 text-on-surface-variant">
           Twoje zakodowane ID: <span className="font-mono bg-surface-container px-2 py-1 rounded text-primary">{userData?.userData?.userId}</span>
@@ -22,7 +13,29 @@ export default function Dashboard() {
         <p className="mb-2 text-on-surface-variant">
           Przypisane ID komisu: <span className="font-mono bg-surface-container px-2 py-1 rounded text-primary">{userData?.userData?.tenantId}</span>
         </p>
+        <p className="mb-2 text-on-surface-variant flex items-center gap-2">
+          Status konta: 
+          <span className="font-bold text-tertiary-container bg-tertiary-fixed-dim px-2 py-1 rounded text-xs tracking-wide">
+            {userData?.userData?.status}
+          </span>
+        </p>
         <p className="mt-4 text-sm text-outline italic">{userData?.secretData}</p>
+      </div>
+      
+      <h3 className="text-2xl font-bold text-primary mb-4">Statystyki Główne</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="p-6 bg-surface-container-lowest border border-surface-container-high rounded-xl flex flex-col justify-center">
+          <p className="text-on-surface-variant text-sm mb-1">Aktywne pojazdy</p>
+          <p className="text-3xl font-bold text-primary">0</p>
+        </div>
+        <div className="p-6 bg-surface-container-lowest border border-surface-container-high rounded-xl flex flex-col justify-center">
+          <p className="text-on-surface-variant text-sm mb-1">Wygenerowane umowy</p>
+          <p className="text-3xl font-bold text-primary">0</p>
+        </div>
+        <div className="p-6 bg-surface-container-lowest border border-surface-container-high rounded-xl flex flex-col justify-center">
+          <p className="text-on-surface-variant text-sm mb-1">Odwiedziny wizytówki</p>
+          <p className="text-3xl font-bold text-primary">0</p>
+        </div>
       </div>
     </div>
   );
