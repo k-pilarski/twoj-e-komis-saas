@@ -5,6 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes.js';
 import dashboardRoutes from './routes/dashboard.routes.js';
+import vehicleRoutes from './routes/vehicle.routes.js';
 
 dotenv.config(); // Ładowanie zmiennych środowiskowych z pliku .env
 
@@ -20,6 +21,7 @@ app.use('/api/auth', authRoutes);
 
 // Trasy prywatne
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/vehicles', vehicleRoutes);
 
 // Prosty endpoint testowy
 app.get('/api/test', (req, res) => {
