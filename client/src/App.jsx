@@ -5,7 +5,8 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardLayout from './layouts/DashboardLayout';
-import Inventory from './pages/Inventory'; // <-- Dodany import naszego nowego widoku
+import Inventory from './pages/Inventory';
+import VehicleForm from './pages/VehicleForm';
 
 export default function App() {
   return (
@@ -28,7 +29,8 @@ export default function App() {
           <Route path="builder" element={<div className="text-2xl font-bold">Kreator Strony - Wkrótce</div>} />
           
           <Route path="inventory" element={<Inventory />} /> 
-          
+          <Route path="inventory/new" element={<VehicleForm />} />
+
           <Route path="documents" element={<div className="text-2xl font-bold">Generator Dokumentów - Wkrótce</div>} />
           <Route path="settings" element={<div className="text-2xl font-bold">Ustawienia - Wkrótce</div>} />
         </Route>

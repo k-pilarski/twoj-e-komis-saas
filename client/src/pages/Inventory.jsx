@@ -1,10 +1,12 @@
 import { useVehicles } from '../hooks/useVehicles';
 import VehicleListItem from '../components/inventory/VehicleListItem';
 import EmptyState from '../components/ui/EmptyState';
+import { useNavigate } from 'react-router-dom';
 
 export default function Inventory() {
   const { vehicles, isLoading, error, removeVehicle } = useVehicles();
-
+  const navigate = useNavigate();
+  
   const handleDelete = async (id) => {
     try {
       await removeVehicle(id);
@@ -32,14 +34,13 @@ export default function Inventory() {
 
   return (
     <div className="max-w-5xl mx-auto pb-12">
-      
       <div className="flex justify-between items-center mb-8">
         <div>
           <h2 className="text-2xl font-bold text-primary">Inwentarz Pojazdów</h2>
           <p className="text-on-surface-variant text-sm mt-1">Zarządzaj swoją flotą, cenami i dostępnością.</p>
         </div>
         <button 
-          onClick={() => console.log('Add clicked')}
+          onClick={() => navigate('/dashboard/inventory/new')}
           className="flex items-center gap-2 bg-secondary text-on-secondary px-5 py-2.5 rounded-lg font-medium hover:bg-secondary-container transition-colors shadow-sm"
         >
           <span className="material-symbols-outlined text-sm">add</span>
