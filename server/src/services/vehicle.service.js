@@ -7,6 +7,18 @@ export const getVehiclesService = async (tenantId) => {
   });
 };
 
+export const getVehicleByIdService = async (tenantId, vehicleId) => {
+  const vehicle = await prisma.vehicle.findFirst({
+    where: { id: vehicleId, tenantId }
+  });
+
+  if (!vehicle) {
+    throw new Error('NOT_FOUND_OR_UNAUTHORIZED');
+  }
+
+  return vehicle;
+};
+
 export const createVehicleService = async (tenantId, vehicleData) => {
   const { brand, model, price, year, description } = vehicleData;
 

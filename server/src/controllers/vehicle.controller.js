@@ -1,5 +1,6 @@
 import { 
   getVehiclesService, 
+  getVehicleByIdService,
   createVehicleService, 
   updateVehicleService, 
   deleteVehicleService 
@@ -12,6 +13,19 @@ export const getVehicles = async (req, res) => {
   } catch (error) {
     console.error('Błąd pobierania pojazdów:', error);
     res.status(500).json({ error: 'Nie udało się pobrać listy pojazdów.' });
+  }
+};
+
+export const getVehicle = async (req, res) => {
+  try {
+    const vehicle = await getVehicleByIdService(req.user.tenantId, req.params.id);
+    res.status(200).json(vehicle);
+  } catch (error) {
+    if (error.message === 'NOT_FOUND_OR_UNAUTHORIZED') {
+      return res.status(404).json({ error: 'Pojazd nie istnieje lub brak uprawnień.' });
+    }
+    console.error('Błąd pobierania pojazdu:', error);
+    res.status(500).json({ error: 'Nie udało się pobrać danych pojazdu.' });
   }
 };
 

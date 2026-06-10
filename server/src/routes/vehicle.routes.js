@@ -2,6 +2,7 @@ import { Router } from "express";
 import { requireAuth } from "../middleware/auth.middleware.js";
 import { 
   getVehicles, 
+  getVehicle,
   createVehicle, 
   updateVehicle, 
   deleteVehicle 
@@ -12,6 +13,7 @@ const router = Router();
 router.use(requireAuth);
 
 router.get('/', getVehicles);
+router.get('/:id', getVehicle);
 router.post('/', createVehicle);
 router.put('/:id', updateVehicle);
 router.delete('/:id', deleteVehicle);
