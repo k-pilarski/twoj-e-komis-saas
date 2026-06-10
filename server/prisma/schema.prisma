@@ -48,22 +48,41 @@ model Tenant {
 // 3. Tabela Samochodów (Inwentarz)
 
 model Vehicle {
-  id          String   @id @default(uuid())
-  brand       String
-  model       String
-  price       Float
-  year        Int
-  description String?
-
-  images      String[] // Tablica adresów URL do zdjęć
-
-  // KLUCZ MULTI-TENANT: Powiązanie auta z konkretnym komisem
-  tenantId    String
-  tenant      Tenant   @relation(fields: [tenantId], references: [id])
-
-  createdAt   DateTime @default(now())
-
+  id                  String   @id @default(uuid())
+  tenantId            String   // Klucz obcy
+  tenant              Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   
+  // Podstawowe
+  brand               String
+  model               String
+  year                Int
+  price               Float
+  description         String?
+
+  // Identyfikacja i historia
+  vin                 String?
+  licensePlate        String?
+  firstRegistration   String?  // Format YYYY-MM-DD
+  mileage             Int?     // Przebieg w kilometrach
+
+  // Specyfikacja techniczna
+  fuelType            String?  // np. Benzyna, Diesel, Hybryda, Elektryczny
+  engineCapacity      Int?     // Pojemność w cm3
+  enginePower         Int?     // Moc w KM
+  transmission        String?  // Manualna, Automatyczna
+  drivetrain          String?  // Na przednie, Na tylne, 4x4
+  bodyType            String?  // Sedan, Kombi, SUV itp.
+  color               String?
+  doors               Int?
+  seats               Int?
+
+  // Stan i pochodzenie
+  isDamaged           Boolean  @default(false)
+  isImported          Boolean  @default(false)
+  importedFrom        String?  // Kraj pochodzenia, jeśli isImported = true
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @default(now()) @updatedAt
 }
 
 // 5. Model Ustawień Kreatora
