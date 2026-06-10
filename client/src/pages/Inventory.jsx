@@ -16,7 +16,7 @@ export default function Inventory() {
   };
 
   const handleEdit = (vehicle) => {
-    console.log('Edit clicked for:', vehicle);
+    navigate(`/dashboard/inventory/${vehicle.id}/edit`);
   };
 
   const handlePreview = (vehicle) => {

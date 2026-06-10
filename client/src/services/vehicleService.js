@@ -45,3 +45,11 @@ export const deleteVehicle = async (id) => {
   if (!response.ok) throw new Error('Failed to delete vehicle');
   return response.json();
 };
+
+export const fetchVehicleById = async (id) => {
+  const response = await fetch(`${API_URL}/${id}`, {
+    headers: getHeaders(),
+  });
+  if (!response.ok) throw new Error('Failed to fetch vehicle details');
+  return response.json();
+};

@@ -30,6 +30,7 @@ export default function App() {
           
           <Route path="inventory" element={<Inventory />} /> 
           <Route path="inventory/new" element={<VehicleForm />} />
+          <Route path="inventory/:id/edit" element={<VehicleForm />} />
 
           <Route path="documents" element={<div className="text-2xl font-bold">Generator Dokumentów - Wkrótce</div>} />
           <Route path="settings" element={<div className="text-2xl font-bold">Ustawienia - Wkrótce</div>} />

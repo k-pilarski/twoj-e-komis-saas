@@ -4,13 +4,25 @@ import InputField from '../components/ui/InputField';
 import TextAreaField from '../components/ui/TextAreaField';
 
 export default function VehicleForm() {
-  const { formData, error, isSubmitting, handleChange, handleSubmit } = useVehicleForm();
+  const { 
+    formData, error, isSubmitting, isLoading, isEditMode, 
+    handleChange, handleSubmit 
+  } = useVehicleForm();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64 text-on-surface-variant">
+        <span className="material-symbols-outlined animate-spin text-3xl mr-3">autorenew</span>
+        <span>Pobieranie danych pojazdu...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto pb-12">
       <FormHeader 
-        title="Dodaj nowy pojazd" 
-        description="Uzupełnij podstawowe dane samochodu." 
+        title={isEditMode ? "Edytuj pojazd" : "Dodaj nowy pojazd"} 
+        description={isEditMode ? "Zaktualizuj dane wybranego samochodu." : "Uzupełnij podstawowe dane samochodu."} 
         backUrl="/dashboard/inventory" 
       />
 
@@ -89,7 +101,7 @@ export default function VehicleForm() {
                   Zapisywanie...
                 </>
               ) : (
-                'Zapisz pojazd'
+                isEditMode ? 'Zapisz zmiany' : 'Dodaj pojazd'
               )}
             </button>
           </div>
