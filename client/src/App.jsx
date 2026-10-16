@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import DashboardLayout from './layouts/DashboardLayout';
 import Inventory from './pages/Inventory';
 import VehicleForm from './pages/VehicleForm';
+import Builder from './pages/Builder';
 
 export default function App() {
   return (
@@ -26,7 +27,7 @@ export default function App() {
           } 
         >
           <Route index element={<Dashboard />} /> 
-          <Route path="builder" element={<div className="text-2xl font-bold">Kreator Strony - Wkrótce</div>} />
+          <Route path="builder" element={<Builder />} />
           
           <Route path="inventory" element={<Inventory />} /> 
           <Route path="inventory/new" element={<VehicleForm />} />
