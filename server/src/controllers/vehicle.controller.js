@@ -31,15 +31,12 @@ export const getVehicle = async (req, res) => {
 
 export const createVehicle = async (req, res) => {
   try {
-    const { brand, model, price, year } = req.body;
-
-    if (!brand || !model || !price || !year) {
-      return res.status(400).json({ error: 'Marka, model, cena i rocznik są wymagane.' });
-    }
-
     const newVehicle = await createVehicleService(req.user.tenantId, req.body);
     res.status(201).json({ message: 'Pojazd dodany pomyślnie.', vehicle: newVehicle });
   } catch (error) {
+    if (error.message?.startsWith('VALIDATION:')) {
+      return res.status(400).json({ error: error.message.replace('VALIDATION:', '') });
+    }
     console.error('Błąd dodawania pojazdu:', error);
     res.status(500).json({ error: 'Nie udało się dodać pojazdu.' });
   }
@@ -52,6 +49,9 @@ export const updateVehicle = async (req, res) => {
   } catch (error) {
     if (error.message === 'NOT_FOUND_OR_UNAUTHORIZED') {
       return res.status(404).json({ error: 'Pojazd nie istnieje lub brak uprawnień.' });
+    }
+    if (error.message?.startsWith('VALIDATION:')) {
+      return res.status(400).json({ error: error.message.replace('VALIDATION:', '') });
     }
     console.error('Błąd edycji pojazdu:', error);
     res.status(500).json({ error: 'Nie udało się zaktualizować pojazdu.' });

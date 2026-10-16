@@ -1,7 +1,8 @@
+// server/src/routes/vehicle.routes.js
 import { Router } from "express";
-import { requireAuth } from "../middleware/auth.middleware.js";
+import { requireAuth, requireActiveTenant } from "../middleware/auth.middleware.js";
 import { 
-  getVehicles, 
+  getVehicles,
   getVehicle,
   createVehicle, 
   updateVehicle, 
@@ -10,7 +11,8 @@ import {
 
 const router = Router();
 
-router.use(requireAuth);
+// Wymaga poprawnego tokenu JWT ORAZ aktywnego statusu konta (ACTIVE)
+router.use(requireAuth, requireActiveTenant);
 
 router.get('/', getVehicles);
 router.get('/:id', getVehicle);

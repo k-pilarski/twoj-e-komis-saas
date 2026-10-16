@@ -1,3 +1,4 @@
+// client/src/layouts/DashboardLayout.jsx
 import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
@@ -23,7 +24,7 @@ export default function DashboardLayout() {
   }
 
   const accountStatus = userData?.userData?.status;
-  const isPending = accountStatus === 'PENDING' || accountStatus === 'EXPIRED';
+  const isBlocked = accountStatus !== 'ACTIVE';
 
   return (
     <div className="min-h-screen bg-background flex font-body-md text-on-background">
@@ -33,7 +34,7 @@ export default function DashboardLayout() {
         <Topbar />
         
         <div className="flex-1 overflow-auto p-8 relative flex flex-col">
-          {isPending ? (
+          {isBlocked ? (
             <PendingBlockade expiresAt={userData?.userData?.expiresAt} />
           ) : (
             <Outlet context={{ userData }} /> 
