@@ -1,3 +1,4 @@
+// client/src/pages/Builder.jsx
 import { useSettings } from '../hooks/useSettings';
 import InputField from '../components/ui/InputField';
 import CheckboxField from '../components/ui/CheckboxField';
@@ -17,7 +18,17 @@ const LAYOUTS = [
 ];
 
 export default function Builder() {
-  const { formData, isLoading, isSubmitting, error, successMsg, handleChange, handleDirectChange, handleSubmit } = useSettings();
+  const {
+    formData,
+    tenantInfo,
+    isLoading,
+    isSubmitting,
+    error,
+    successMsg,
+    handleChange,
+    handleDirectChange,
+    handleSubmit
+  } = useSettings();
 
   if (isLoading) {
     return (
@@ -28,12 +39,42 @@ export default function Builder() {
     );
   }
 
+  const publicUrl = tenantInfo.slug ? `/komis/${tenantInfo.slug}` : null;
+
   return (
     <div className="max-w-4xl mx-auto pb-12">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-primary mb-2">Kreator Wizytówki</h1>
-        <p className="text-on-surface-variant">Dostosuj wygląd i funkcjonalności strony publicznej swojego komisu.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-primary mb-2">Kreator Wizytówki</h1>
+          <p className="text-on-surface-variant">Dostosuj wygląd i funkcjonalności strony publicznej swojego komisu.</p>
+        </div>
+
+        {publicUrl && (
+          <a
+            href={publicUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-secondary text-on-secondary px-5 py-2.5 rounded-lg font-bold hover:opacity-90 transition-opacity shrink-0 self-start sm:self-auto"
+          >
+            <span className="material-symbols-outlined text-[20px]">open_in_new</span>
+            Zobacz stronę na żywo
+          </a>
+        )}
       </div>
+
+      {publicUrl && (
+        <div className="bg-surface-container-low border border-outline-variant rounded-xl p-4 mb-6 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="material-symbols-outlined text-primary">language</span>
+            <div className="truncate">
+              <span className="text-xs text-on-surface-variant block">Publiczny adres Twojego komisu:</span>
+              <span className="font-mono text-sm font-bold text-primary">
+                {window.location.origin}{publicUrl}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="bg-surface-container-lowest border border-surface-container-high rounded-xl p-6 sm:p-8 shadow-sm">
         {error && <div className="bg-error-container text-on-error-container p-4 rounded-lg mb-6 text-sm">{error}</div>}

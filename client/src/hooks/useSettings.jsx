@@ -1,3 +1,4 @@
+// client/src/hooks/useSettings.js
 import { useState, useEffect } from 'react';
 import { fetchSettings, updateSettings } from '../services/settingsService';
 
@@ -12,6 +13,7 @@ export function useSettings() {
     address: ''
   });
 
+  const [tenantInfo, setTenantInfo] = useState({ name: '', slug: '' });
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -30,6 +32,12 @@ export function useSettings() {
           phoneNumber: data.phoneNumber || '',
           address: data.address || ''
         });
+        if (data.tenant) {
+          setTenantInfo({
+            name: data.tenant.name || '',
+            slug: data.tenant.slug || ''
+          });
+        }
       } catch (err) {
         setError('Nie udało się załadować konfiguracji wizytówki.');
         console.error(err);
@@ -48,7 +56,6 @@ export function useSettings() {
     }));
   };
 
-  // Specjalna funkcja dla kafelków z kolorami i układami
   const handleDirectChange = (name, value) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -71,5 +78,15 @@ export function useSettings() {
     }
   };
 
-  return { formData, isLoading, isSubmitting, error, successMsg, handleChange, handleDirectChange, handleSubmit };
+  return {
+    formData,
+    tenantInfo,
+    isLoading,
+    isSubmitting,
+    error,
+    successMsg,
+    handleChange,
+    handleDirectChange,
+    handleSubmit
+  };
 }

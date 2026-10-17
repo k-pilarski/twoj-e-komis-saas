@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+// client/src/App.jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -8,6 +9,7 @@ import DashboardLayout from './layouts/DashboardLayout';
 import Inventory from './pages/Inventory';
 import VehicleForm from './pages/VehicleForm';
 import Builder from './pages/Builder';
+import Storefront from './pages/Storefront';
 
 export default function App() {
   return (
@@ -17,6 +19,9 @@ export default function App() {
         
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        
+        {/* Publiczna wizytówka komisu */}
+        <Route path="/komis/:slug" element={<Storefront />} />
         
         <Route 
           path="/dashboard" 
