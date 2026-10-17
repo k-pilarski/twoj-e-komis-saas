@@ -10,6 +10,7 @@ import Inventory from './pages/Inventory';
 import VehicleForm from './pages/VehicleForm';
 import Builder from './pages/Builder';
 import Storefront from './pages/Storefront';
+import Documents from './pages/Documents';
 
 export default function App() {
   return (
@@ -38,7 +39,7 @@ export default function App() {
           <Route path="inventory/new" element={<VehicleForm />} />
           <Route path="inventory/:id/edit" element={<VehicleForm />} />
 
-          <Route path="documents" element={<div className="text-2xl font-bold">Generator Dokumentów - Wkrótce</div>} />
+          <Route path="documents" element={<Documents />} />
           <Route path="settings" element={<div className="text-2xl font-bold">Ustawienia - Wkrótce</div>} />
         </Route>
       </Routes>
