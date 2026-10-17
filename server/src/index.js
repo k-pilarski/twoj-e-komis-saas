@@ -8,6 +8,7 @@ import dashboardRoutes from './routes/dashboard.routes.js';
 import vehicleRoutes from './routes/vehicle.routes.js';
 import settingsRoutes from "./routes/settings.routes.js";
 import publicRoutes from "./routes/public.routes.js";
+import documentRoutes from "./routes/document.routes.js";
 
 dotenv.config(); // Ładowanie zmiennych środowiskowych z pliku .env
 
@@ -26,6 +27,7 @@ app.use('/api/public', publicRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/documents', documentRoutes);
 
 // Prosty endpoint testowy
 app.get('/api/test', (req, res) => {
