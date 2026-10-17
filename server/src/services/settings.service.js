@@ -1,8 +1,17 @@
+// server/src/services/settings.service.js
 import { prisma } from "../lib/prisma.js";
 
 export const getSettingsService = async (tenantId) => {
   const settings = await prisma.settings.findUnique({
-    where: { tenantId }
+    where: { tenantId },
+    include: {
+      tenant: {
+        select: {
+          name: true,
+          slug: true
+        }
+      }
+    }
   });
 
   if (!settings) {
@@ -13,7 +22,6 @@ export const getSettingsService = async (tenantId) => {
 };
 
 export const updateSettingsService = async (tenantId, settingsData) => {
-  // Sprawdzamy czy ustawienia istnieją dla danego tenanta
   const existingSettings = await prisma.settings.findUnique({
     where: { tenantId }
   });

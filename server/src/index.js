@@ -7,6 +7,7 @@ import authRoutes from './routes/auth.routes.js';
 import dashboardRoutes from './routes/dashboard.routes.js';
 import vehicleRoutes from './routes/vehicle.routes.js';
 import settingsRoutes from "./routes/settings.routes.js";
+import publicRoutes from "./routes/public.routes.js";
 
 dotenv.config(); // Ładowanie zmiennych środowiskowych z pliku .env
 
@@ -19,6 +20,7 @@ app.use(express.json()); // Pozwala Expressowi czytać dane w formacie JSON
 
 // Trasy publiczne
 app.use('/api/auth', authRoutes);
+app.use('/api/public', publicRoutes);
 
 // Trasy prywatne
 app.use('/api/dashboard', dashboardRoutes);
